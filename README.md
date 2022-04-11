@@ -1,6 +1,10 @@
 # Bot le chat
 A chatbot for discord, made with the `api.affiliateplus.com` API
 
+## Prerequisites
+
+latest versions of [`Node.js`](https://nodejs.org) and [`npm`](https://npmjs.org) (bundled with Node.js)
+
 ## Setup
 
 Clone the repo
