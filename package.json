@@ -1,7 +1,26 @@
 {
-	"dependencies": {
-		"discord.js": "^13.6.0",
-		"dotenv": "^16.0.0",
-		"node-fetch": "2"
-	}
+  "name": "bot-le-chat",
+  "version": "0.0.1",
+  "description": "Discord.JS chatbot",
+  "main": "index.js",
+  "dependencies": {
+    "discord.js": "^13.6.0",
+    "dotenv": "^16.0.0",
+    "node-fetch": "^2.6.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YesWeDont/bot-le-chat.git"
+  },
+  "author": "YesWeDont",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YesWeDont/bot-le-chat/issues"
+  },
+  "homepage": "https://github.com/YesWeDont/bot-le-chat#readme",
+  "keywords":["chatbot", "discord", "discordjs", "yeswedont"]
 }
