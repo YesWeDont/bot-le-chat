@@ -1,0 +1,33 @@
+[
+    {
+        "activities": [{
+            "name": "the chat",
+            "type":"WATCHING",
+            "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+        }],
+        "status": "online"
+    },
+    {
+        "activities": [{
+            "name": "Homo Sapiens Simulator 3000",
+            "type":"STREAMING"
+        }],
+        "status": "dnd"
+    },
+    {
+        "activities": [{
+            "name": "a 1987 radio show replay",
+            "type":"LISTENING",
+            "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+        }],
+        "status": "dnd"
+    },
+    {
+        "activities": [{
+            "name": "a rickroll in your earphones",
+            "type":"PLAYING",
+            "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+        }],
+        "status": "dnd"
+    }
+]
