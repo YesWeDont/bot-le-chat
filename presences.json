@@ -20,7 +20,7 @@
             "type":"LISTENING",
             "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
         }],
-        "status": "dnd"
+        "status": "idle"
     },
     {
         "activities": [{
@@ -28,6 +28,6 @@
             "type":"PLAYING",
             "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
         }],
-        "status": "dnd"
+        "status": "online"
     }
 ]
