@@ -32,7 +32,6 @@ client.on('messageCreate', async message=>{
         // Emoji sanitization
         .then(a=>a.replace(/\<\:([\w\d_]{2,}:\d+)\>/g, ":$1:"))
     );
-    console.log(messageContent)
     let tunnel = await fetch(endpoint(messageContent, message.author.id));
     let result = await tunnel.json();
     
