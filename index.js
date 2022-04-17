@@ -3,7 +3,9 @@ require('dotenv').config();
 // DiscordJS: import a client that only cares about server + dm messages
 const djs = require('discord.js'),
 client = new djs.Client({intents:[djs.Intents.FLAGS.DIRECT_MESSAGES, djs.Intents.FLAGS.GUILD_MESSAGES, djs.Intents.FLAGS.GUILDS]}),
-// fetch() API polyfill
+// represents "send tts messages" permission in Discord
+sendTTSPerm = djs.Permissions.FLAGS.SEND_TTS_MESSAGES,
+// fetch() API in NodeJS
 fetch = require('node-fetch'),
 {URLSearchParams} = require('url'),
 // config data for chatbot, eg name, age etc
@@ -11,7 +13,7 @@ conf = require('./defaultConfig.json'),
 // debug
 startTimestamp = Date.now();
 
-// Init client presence + change presence every 10 mins
+// Init client presence and change every 10 mins
 client.on('ready', ()=>{
     presences();
     setInterval(presences, 10*60*1000);
@@ -21,27 +23,44 @@ client.on('ready', ()=>{
 
 // Call the API whenever recieved message
 client.on('messageCreate', async message=>{
-    if(message.author.bot) return;
-    let messageContent = await (
-        // Ping sanitization
-        replaceAsync(message.content, /<@(\d+)>/g, async (substr, id)=>{
-            if(message.guild) return (await message.guild.members.fetch(id))?.user?.tag || substr;
-            return substr;
-        })
+    try{
+        if(message.author.bot) return;
         
-        // Emoji sanitization
-        .then(a=>a.replace(/\<\:([\w\d_]{2,}:\d+)\>/g, ":$1:"))
-    );
-    let tunnel = await fetch(endpoint(messageContent, message.author.id));
-    let result = await tunnel.json();
-    
-    if(result.error) message.reply('Error occured')
-    else if(result.message) message.reply({
-        content:result.message,
-        // TTS Messages: give people a shock once a while
-        tts:(message.channel.permissionsFor ? message.channel.permissionsFor(client.user).has(djs.Permissions.FLAGS.SEND_TTS_MESSAGES) : true) && Math.random() < 0.1,
-        failIfNotExists:false
-    });
+        if(!message.content){
+            if(message.attachments.size > 0) return message.reply("**I can't see images, I can only see the text ;c**")
+            // How did they send this message?
+            return;
+        }
+
+        let messageContent = await (
+            // Ping sanitization
+            replaceAsync(message.content, /<@(\d+)>/g, async (substr, id)=>{
+                if(message.guild){
+                    let username = (await message.guild.members.fetch(id))?.user?.username;
+                    if(username) return `@${username}`
+                }
+                return "";
+            })
+
+            // Emoji sanitization
+            .then(a=>a.replace(/\<\:([\w\d_]{2,}:\d+)\>/g, ":$1:"))
+        );
+        
+        let tunnel = await fetch(endpoint(messageContent, message.author.id));
+        let result = await tunnel.json();
+
+        // Reply the response to chat
+        if(result.error) console.dir(result);
+        else if(result.message) message.reply({
+            content:result.message,
+            // TTS Messages: give people a shock once a while
+            tts:(message.channel.permissionsFor ? message.channel.permissionsFor(client.user).has(sendTTSPerm) : true) && Math.random() < 0.1,
+            failIfNotExists:false
+        });
+    }catch(e){
+        // error handling
+        console.dir(e)
+    }
 });
 
 // Login into Discord
